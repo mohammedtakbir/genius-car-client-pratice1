@@ -4,7 +4,7 @@ import logo from '../../../assets/logo.svg'
 
 const Footer = () => {
     return (
-        <div className='bg-black'>
+        <div className='bg-black py-14 mt-10'>
             <footer className="footer p-10 container mx-auto text-white">
                 <div>
                     <Link to='/'>
