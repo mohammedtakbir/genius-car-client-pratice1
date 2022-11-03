@@ -22,6 +22,12 @@ const Header = () => {
         <li className='mx-2 font-medium text-lg'>
             <Link className='active:bg-slate-400'>Contact</Link>
         </li>
+        <li className='mx-2 font-medium text-lg'>
+            <Link to='/login' className='active:bg-slate-400'>Login</Link>
+        </li>
+        <li className='mx-2 font-medium text-lg'>
+            <Link to='/signup' className='active:bg-slate-400'>Sign Up</Link>
+        </li>
     </>
     return (
         <div className='py-5'>
