@@ -1,12 +1,15 @@
 import React from 'react';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../Contexts/AuthProvider';
 
 const Login = () => {
-    const {userLogin} = useContext(AuthContext);
+    const { userLogin } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -16,8 +19,23 @@ const Login = () => {
 
         userLogin(email, password)
             .then(res => {
+                const currentUser = {
+                    email: res.user?.email
+                };
+
+                fetch('http://localhost:5001/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        localStorage.setItem('genius-token-practice1', data.token)
+                    })
+                navigate(from);
                 toast.success('successfully Login!')
-                console.log(res.user)
             })
             .catch(err => console.error(err))
     }

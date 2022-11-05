@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
 import toast from 'react-hot-toast';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Contexts/AuthProvider';
 
 const CheckOut = () => {
@@ -27,16 +27,17 @@ const CheckOut = () => {
             message
         };
 
-        fetch(`http://localhost:5000/orders`, {
+        fetch(`http://localhost:5001/orders`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('genius-token-practice1')}`
             },
             body: JSON.stringify(order)
         })
             .then(res => res.json())
             .then(data => {
-                if(data.acknowledged){
+                if (data.acknowledged) {
                     toast.success('order placed')
                 }
                 console.log(data)
