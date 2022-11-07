@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../Contexts/AuthProvider';
+import { setAuthToken } from '../API/Auth';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Signup = () => {
     const { createUser } = useContext(AuthContext);
@@ -16,6 +18,7 @@ const Signup = () => {
 
         createUser(email, password)
             .then(res => {
+                setAuthToken(res);
                 toast.success('successfully Sign up!')
                 console.log(res.user)
             })
@@ -72,6 +75,7 @@ const Signup = () => {
                                 <button type='submit' className="btn btn-success">Sign Up</button>
                             </div>
                         </form>
+                        <SocialLogin />
                         <p className='text-center mt-3 mb-4'>
                             <small>Already have an account? <Link to='/login' className='underline text-green-500'>Login</Link></small>
                         </p>
