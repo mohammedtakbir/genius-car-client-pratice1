@@ -1,15 +1,26 @@
 import React from 'react';
+import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import ServiceCard from './ServiceCard';
 
 const Services = () => {
     const [services, setServices] = useState([]);
+    const [isAscending, setAscending] = useState(true);
+    const [search, setSearch] = useState('');
+    const searchRef = useRef();
+
+
     useEffect(() => {
-        fetch('https://genius-car-server-pratice1.vercel.app/services')
+        fetch(`http://localhost:5000/services?search=${search}&order=${isAscending ? 'Ascending' : 'descending'}`)
             .then(res => res.json())
-            .then(data => setServices(data));
-    }, []);
+            .then(data => setServices(data))
+    }, [isAscending, search]);
+
+    const handleSearch = () => {
+        setSearch(searchRef.current.value);
+    }
+
 
     return (
         <div className='container mx-auto'>
@@ -19,6 +30,11 @@ const Services = () => {
                 <p className="text-gray-500 w-[35%] mx-auto mb-12">
                     the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
                 </p>
+                <button className='btn btn-success text-white mb-7' onClick={() => setAscending(!isAscending)}>{isAscending ? 'High to Low' : 'Low to High'}</button>
+                <div>
+                    <input className='input input-sm input-bordered max-w-x mr-3' ref={searchRef} type="text" name="" id="" />
+                    <button onClick={handleSearch} className='btn btn-success text-white mb-7'>Search</button>
+                </div>
             </div>
             <div className='grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7'>
                 {
